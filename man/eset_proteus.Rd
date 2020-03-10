@@ -19,7 +19,7 @@ Converts proteins table and metadata into eset_proteus
 }
 \examples{
 library(proteusLabelFree)
-data(proteusLabelFree)
+evi<-proteusLabelFree::evi
 
 evi$protein<-gsub(".*[sp|]([^.]+)[|].*", "\\\\1", evi$protein)
 evi_symbols<-ProtGene::Evidence_Symbols(evi=evi, Species="Yeast")
@@ -30,7 +30,7 @@ Meta$condition<-gsub("-[1-9]","", Meta$experiment)
 Meta$measure<-"Intensity"
 
 pepdat <- proteus::makePeptideTable(evi_symbols, Meta, ncores=4)
-Proteinsdat <- proteus::makeProteinTable(pepdat, ncores = 4)
+Proteinsdat <- proteus::makeProteinTable(pepdat)
 
 data_se<-eset_proteus(Proteins_table=Proteinsdat, MS_metadata=Meta)
 

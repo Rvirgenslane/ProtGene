@@ -9,7 +9,7 @@ Evidence_Symbols(evi = NULL, Species = "Human")
 \arguments{
 \item{evi}{Evidence table created with \code{\link[proteus]{readEvidenceFile}}.}
 
-\item{string}{indicating the species. "Human" (default),
+\item{Species}{indicating the species. "Human" (default),
 "Mouse", or "Yeast" are the only options.}
 }
 \value{
@@ -20,10 +20,9 @@ For yeast, "GENENAME" is returned.
 Prepares adds gene symbols to evidence file object
 }
 \examples{
-devtools::install_github("bartongroup/proteusLabelFree")
 library(proteusLabelFree)
-evidenceFile <- system.file("extdata", "evidence.txt.gz", package="proteusLabelFree")
-evi <- proteus::readEvidenceFile(evidenceFile)
+evi<-proteusLabelFree::evi
+
 evi$protein<-gsub(".*[sp|]([^.]+)[|].*", "\\\\1", evi$protein)
 evi_symbols<-ProtGene::Evidence_Symbols(evi=evi, Species="Yeast")
 head(evi_symbols)

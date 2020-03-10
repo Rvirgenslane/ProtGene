@@ -5,7 +5,7 @@
 #' @return Expressset
 #' @examples
 #' library(proteusLabelFree)
-#' data(proteusLabelFree)
+#' evi<-proteusLabelFree::evi
 #'
 #' evi$protein<-gsub(".*[sp|]([^.]+)[|].*", "\\1", evi$protein)
 #' evi_symbols<-ProtGene::Evidence_Symbols(evi=evi, Species="Yeast")
@@ -16,7 +16,7 @@
 #' Meta$measure<-"Intensity"
 #'
 #' pepdat <- proteus::makePeptideTable(evi_symbols, Meta, ncores=4)
-#' Proteinsdat <- proteus::makeProteinTable(pepdat, ncores = 4)
+#' Proteinsdat <- proteus::makeProteinTable(pepdat)
 #'
 #' data_se<-eset_proteus(Proteins_table=Proteinsdat, MS_metadata=Meta)
 #'
@@ -46,7 +46,7 @@ MS_metadata$c_c<-as.character(MS_metadata$condition)
 
 condition_ids<-unique(MS_metadata$c_c)
 
-Output_conditions <- setNames(vector(length(condition_ids),
+Output_conditions <- stats::setNames(vector(length(condition_ids),
 mode="list"), condition_ids)
 Output_conditions
 

@@ -19,10 +19,13 @@ data.frame with sample metadata
 Prepares metadata file object for Proteus
 }
 \examples{
-devtools::install_github("bartongroup/proteusLabelFree")
 library(proteusLabelFree)
-evidenceFile <- system.file("extdata", "evidence.txt.gz", package="proteusLabelFree")
-evi <- readEvidenceFile(evidenceFile)
-Meta<-Proteus_Prep(evi=evi, measure.cols="intensity")
-Meta
+evi<-proteusLabelFree::evi
+evi$protein<-gsub(".*[sp|]([^.]+)[|].*", "\\\\1", evi$protein)
+evi_symbols<-ProtGene::Evidence_Symbols(evi=evi, Species="Yeast")
+head(evi_symbols)
+
+Meta<-Proteus_Prep(evi=evi_symbols, measure.cols="intensity")
+Meta$condition<-gsub("-[1-9]","", Meta$experiment)
+Meta$measure<-"Intensity"
 }
