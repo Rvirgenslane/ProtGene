@@ -8,6 +8,12 @@ This package reads the evidence file from mass spec data and formats it for diff
     devtools::install_github("bartongroup/proteusSILAC")
     devtools::install_github("bartongroup/Proteus", 
     build_opts= c("--no-resave-data", "--no-manual"), build_vignettes=FALSE)
+    
+# Install additional packages
+    if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+    BiocManager::install(c("org.Hs.eg.db","org.Mm.eg.db", "org.Sc.sgd.db"))
 
 # Install ProtGene
     devtools::install_github("Rvirgenslane/ProtGene")
