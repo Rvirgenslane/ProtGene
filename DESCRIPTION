@@ -1,0 +1,20 @@
+Package: ProtGene
+Type: Package
+Title: Import mass spec evidence file and prepares for DE analysis 
+Version: 0.99.0
+Author: Richard Virgen-Slane
+Maintainer: Richard Virgen-Slane <RVS.BioTools@gmail.com>
+Description: Imports, normalizes, and imputes.
+License: GPL-2
+Encoding: UTF-8
+LazyData: true
+Imports: 
+    AnnotationDbi,
+    data.table,
+    DEP,
+    limma,
+    org.Hs.eg.db,
+    org.Mm.eg.db,
+    org.Sc.sgd.db,
+    utils
+RoxygenNote: 7.0.2
