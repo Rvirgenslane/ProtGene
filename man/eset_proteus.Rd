@@ -4,33 +4,60 @@
 \alias{eset_proteus}
 \title{Converts proteins table and metadata into eset_proteus}
 \usage{
-eset_proteus(Proteins_table = NULL, MS_metadata = NULL)
+eset_proteus(Proteins_table = NULL, MS_metadata = NULL, replicate_input = NULL)
 }
 \arguments{
 \item{Proteins_table}{Output of makeProteinTable function}
 
-\item{MS_metadata}{Metadata object prepared by Proteus_Prep function}
+\item{MS_metadata}{Metadata object prepared by Proteus_Prep function.}
+
+\item{replicate_input}{a numeric vector indicate replicate number per 
+condition.}
 }
 \value{
-Expressset
+ExpressSet
 }
 \description{
 Converts proteins table and metadata into eset_proteus
 }
 \examples{
+# Getting evidence file
+library(ProtGene)
 library(proteusLabelFree)
-evi<-proteusLabelFree::evi
+evidenceFile <- system.file("extdata", "evidence.txt.gz", package="proteusLabelFree")
 
-evi$protein<-gsub(".*[sp|]([^.]+)[|].*", "\\\\1", evi$protein)
-evi_symbols<-ProtGene::Evidence_Symbols(evi=evi, Species="Yeast")
+# The directory of the evidence file is required
+Evidence_input <- proteus::readEvidenceFile(evidenceFile)
+
+# extracting uniprot ids: "sp|P00175|CYB2_YEAST" to "P00175
+# Your data may not need this step
+Evidence_input$protein<-gsub(".*[sp|]([^.]+)[|].*", "\\\\1", Evidence_input$protein)
+head(Evidence_input)
+
+# Converting to gene name
+evi_symbols<-ProtGene::Evidence_Symbols(evi=Evidence_input, Species="Yeast")
 head(evi_symbols)
 
-Meta<-Proteus_Prep(evi=evi_symbols, measure.cols="intensity")
-Meta$condition<-gsub("-[1-9]","", Meta$experiment)
-Meta$measure<-"Intensity"
+# Generating metadata from evidence file
+Meta<-Proteus_Prep(evi=evi_symbols)
+head(Meta)
 
-pepdat <- proteus::makePeptideTable(evi_symbols, Meta, ncores=4)
-Proteinsdat <- proteus::makeProteinTable(pepdat)
+# Converting sample name into conditions
+unique(Meta$experiment) # experiment names will be used to set conditions
+Meta$condition<-gsub("-[1-9]","", Meta$experiment)
+unique(Meta$condition) # experiment names will be used to set conditions
+
+# measure columns between evidence and meta should match "Intensity"
+# "Intensity" is case-sensitive
+colnames(evi_symbols) # "intensity"  
+unique(Meta$measure) # "Intensity"
+
+measures_var<-c("intensity"="Intensity")
+
+pepdat <- proteus::makePeptideTable(evi_symbols, Meta,
+measure.cols=measures_var, ncores=2) 
+
+Proteinsdat <- proteus::makeProteinTable(pepdat, ncores=2)
 
 data_se<-eset_proteus(Proteins_table=Proteinsdat, MS_metadata=Meta)
 

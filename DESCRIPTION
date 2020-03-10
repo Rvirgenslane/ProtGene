@@ -1,7 +1,7 @@
 Package: ProtGene
 Type: Package
 Title: Import mass spec evidence file and prepares for DE analysis 
-Version: 0.99.1
+Version: 0.99.2
 Author: Richard Virgen-Slane
 Maintainer: Richard Virgen-Slane <RVS.BioTools@gmail.com>
 Description: Imports, normalizes, and imputes.
@@ -18,6 +18,8 @@ Imports:
     org.Sc.sgd.db,
     proteus,
     proteusLabelFree,
+    SummarizedExperiment,
     stats,
-    utils
+    utils,
+    vsn
 RoxygenNote: 7.0.2

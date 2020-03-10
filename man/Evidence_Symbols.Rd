@@ -20,10 +20,20 @@ For yeast, "GENENAME" is returned.
 Prepares adds gene symbols to evidence file object
 }
 \examples{
+# Getting evidence file
+library(ProtGene)
 library(proteusLabelFree)
-evi<-proteusLabelFree::evi
+evidenceFile <- system.file("extdata", "evidence.txt.gz", package="proteusLabelFree")
 
-evi$protein<-gsub(".*[sp|]([^.]+)[|].*", "\\\\1", evi$protein)
-evi_symbols<-ProtGene::Evidence_Symbols(evi=evi, Species="Yeast")
+# The directory of the evidence file is required
+Evidence_input <- proteus::readEvidenceFile(evidenceFile)
+
+# extracting uniprot ids: "sp|P00175|CYB2_YEAST" to "P00175
+# Your data may not need this step
+Evidence_input$protein<-gsub(".*[sp|]([^.]+)[|].*", "\\\\1", Evidence_input$protein)
+head(Evidence_input)
+
+# Converting to gene name
+evi_symbols<-ProtGene::Evidence_Symbols(evi=Evidence_input, Species="Yeast")
 head(evi_symbols)
 }
