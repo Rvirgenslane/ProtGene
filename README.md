@@ -13,7 +13,7 @@ This package reads the evidence file from mass spec data and formats it for diff
     if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
 
-    BiocManager::install(c("org.Hs.eg.db","org.Mm.eg.db", "org.Sc.sgd.db"))
+    BiocManager::install(c("org.Hs.eg.db","org.Mm.eg.db", "org.Sc.sgd.db","vsn", "DEP"))
 
 # Install ProtGene
     devtools::install_github("Rvirgenslane/ProtGene")
